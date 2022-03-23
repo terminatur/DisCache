@@ -55,12 +55,8 @@ class DoublyLinkedList(object):
 
         return values
 
-    def moveToBack(self, node: DoublyLinkedListNode) -> None:
+    def remove(self, node: DoublyLinkedListNode) -> None:
         with self.updateLock:
-            # node is first
-            # node is last
-            # node is middle
-
             if node.next is None:
                 return
             if node.prev is None:
@@ -70,6 +66,12 @@ class DoublyLinkedList(object):
                 node.prev.next = node.next
                 node.next.prev = prevTemp
 
+            self.length -= 1
+
+    def moveToBack(self, node: DoublyLinkedListNode) -> None:
+        self.remove(node)
+
+        with self.updateLock:
             node.prev = self.back
             node.next = None
             self.back.next = node
@@ -82,20 +84,21 @@ class DoublyLinkedList(object):
             result += f'{ptr.value} -> '
             ptr = ptr.next
 
+        result += "None"
         return result
 
 
-ll = DoublyLinkedList()
-ll.pushBack("1")
-print(str(ll))
-ll.pushBack("2")
-ll.pushBack("3")
-v4 = ll.pushBack("4")
-ll.pushBack("5")
-print(str(ll))
-ll.popFront()
-print(str(ll))
-ll.popNFront(2)
-print(str(ll))
-ll.moveToBack(v4)
-print(str(ll))
+# ll = DoublyLinkedList()
+# ll.pushBack("1")
+# print(str(ll))
+# ll.pushBack("2")
+# ll.pushBack("3")
+# v4 = ll.pushBack("4")
+# ll.pushBack("5")
+# print(str(ll))
+# ll.popFront()
+# print(str(ll))
+# ll.popNFront(2)
+# print(str(ll))
+# ll.moveToBack(v4)
+# print(str(ll))
